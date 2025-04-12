@@ -3,7 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
+    <title>{% block title %}{% endblock %}</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="navbar bg-base-100 shadow-sm">
+        <div class="flex-1">
+          <a class="btn btn-ghost text-xl" href="/">Blood Test Analysis</a>
+        </div>
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <li>
+              <details>
+                <summary>Actions</summary>
+                <ul class="bg-base-100 rounded-t-none">
+                  {% if g.user %}
+                  <li><a href="/logout">Logout</a></li>
+                  {% else %}
+                  <li><a href="/login">Login</a></li>
+                  <li><a href="/register">Register</a></li>
+                  {% endif %}
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main
+      class="mt-[56px] mb-[56px] section w-full flex items-center justify-center flex-col"
+    >
+      {% block content %}{% endblock %}
+    </main>
+    <footer
+      class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4 fixed bottom-0"
+    >
+      <aside>
+        <p>Copyright © - All rights reserved</p>
+      </aside>
+    </footer>
+  </body>
 </html>

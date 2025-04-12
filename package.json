@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm dlx @tailwindcss/cli -i ./src/static/input.css -o ./src/static/index.css",
+    "generate-css": "pnpm dlx @tailwindcss/cli -i ./src/static/input.css -o ./src/static/index.css",
+    "generate-css-watch": "pnpm dlx @tailwindcss/cli -i ./src/static/input.css -o ./src/static/index.css --watch",
     "dev": "flask --app ./src/main run --debug"
   },
   "keywords": [],

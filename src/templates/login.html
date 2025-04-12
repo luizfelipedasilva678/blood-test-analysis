@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block title %}Register{% endblock %} {% block
+content %}
+
+<h1 class="text-2xl font-bold mb-4">Login your account</h1>
+
+<form method="post" class="flex flex-col items-center justify-center gap-4">
+  <label class="input w-full">
+    <span class="label">Username</span>
+    <input type="text" placeholder="your username" />
+  </label>
+  <label class="input w-full">
+    <span class="label">Password</span>
+    <input type="password" placeholder="your password" />
+  </label>
+  <input type="submit" class="btn w-full" value="Login" />
+</form>
+{% endblock %}
