@@ -1,17 +1,11 @@
-{% extends 'base.html' %} {% block title %}Register{% endblock %} {% block
-content %}
+{% extends 'base.html' %} {% from "_formhelpers.html" import render_field %} {%
+block title %} Cadastre-se {% endblock %} {% block content %}
 
 <h1 class="text-2xl font-bold mb-4">Cadastre-se</h1>
 
 <form method="post" class="flex flex-col items-center justify-center gap-4">
-  <label class="input w-full">
-    <span class="label">Usuário</span>
-    <input type="text" placeholder="seu usuário" name="username" />
-  </label>
-  <label class="input w-full">
-    <span class="label">Password</span>
-    <input type="password" placeholder="Sua senha" name="password" />
-  </label>
+  {{ render_field(form.username) }} {{ render_field(form.password) }}
   <input type="submit" class="btn w-full" value="Registrar" />
 </form>
+
 {% endblock %}

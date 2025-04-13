@@ -4,3 +4,4 @@ python-dotenv
 google-genai
 pillow
 markdown
+Flask-WTF

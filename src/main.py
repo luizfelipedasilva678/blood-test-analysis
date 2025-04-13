@@ -2,19 +2,19 @@ from flask import Flask, render_template, session, redirect, url_for, request, a
 from sys import exit
 from mysql.connector import connect
 from models.user.user_repository_in_rdb import UserRepositoryInRDB
-from models.user.user import User
 from dotenv import load_dotenv
 from os import environ
 from models.analysis.analysis_repository_in_rdb import AnalysisRepositoryInRDB
 from models.analysis.analysis import Analysis
 from markdown import markdown
+from controllers.register_controller import RegisterController
+from forms.registration_form import RegistrationForm
 from models.gemini_bloodtest_analyzer.gemini_bloodtest_analyzer import (
     GeminiBloodTestAnalyzer,
 )
 
 load_dotenv()
 ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "webp"}
-
 app = Flask(__name__)
 
 
@@ -86,13 +86,13 @@ try:
             if "userid" in session:
                 return redirect(url_for("index"))
 
-            if request.method == "POST":
-                user = User(request.form.get("username"), request.form.get("password"))
-                user_repository = UserRepositoryInRDB(cnx)
-                user_repository.register(user)
+            form = RegistrationForm(request.form)
+            if request.method == "POST" and form.validate():
+                controller = RegisterController(UserRepositoryInRDB(cnx))
+                controller.register(form.username.data, form.password.data)
                 return redirect(url_for("login"))
-            else:
-                return render_template("register.html")
+
+            return render_template("register.html", form=form)
         except Exception as e:
             abort(500)
 
@@ -113,8 +113,8 @@ try:
                 session["username"] = user.get_username()
 
                 return redirect(url_for("index"))
-            else:
-                return render_template("login.html")
+
+            return render_template("login.html")
         except Exception as e:
             abort(500)
 
@@ -126,5 +126,4 @@ try:
         return redirect(url_for("login"))
 
 except Exception as e:
-    print(e)
     exit(1)
