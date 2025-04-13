@@ -13,19 +13,19 @@
     <header>
       <div class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-          <a class="btn btn-ghost text-xl" href="/">Blood Test Analysis</a>
+          <a class="btn btn-ghost text-xl" href="/">Analisador de hemogramas</a>
         </div>
         <div class="flex-none">
           <ul class="menu menu-horizontal px-1">
             <li>
               <details>
-                <summary>Actions</summary>
+                <summary>Ações</summary>
                 <ul class="bg-base-100 rounded-t-none">
                   {% if g.user %}
-                  <li><a href="/logout">Logout</a></li>
+                  <li><a href="/logout">Sair</a></li>
                   {% else %}
                   <li><a href="/login">Login</a></li>
-                  <li><a href="/register">Register</a></li>
+                  <li><a href="/register">Signup</a></li>
                   {% endif %}
                 </ul>
               </details>
@@ -43,7 +43,7 @@
       class="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4 fixed bottom-0"
     >
       <aside>
-        <p>Copyright © - All rights reserved</p>
+        <p>Copyright © - Todos os direitos reservados</p>
       </aside>
     </footer>
   </body>
