@@ -13,15 +13,20 @@
     <header>
       <div class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-          <a class="btn btn-ghost text-xl" href="/">Analisador de hemogramas</a>
+          <a class="btn btn-ghost text-xl max-[768px]:text-sm" href="/"
+            >Analisador de hemogramas</a
+          >
         </div>
-        <div class="flex-none">
+        <div class="flex gap-2 items-center justify-center">
+          {% if g.username %}
+          <p class="text-[14px] max-[768px]:hidden">Olá, {{ g.username }}</p>
+          {% endif %}
           <ul class="menu menu-horizontal px-1">
             <li>
               <details>
                 <summary>Ações</summary>
                 <ul class="bg-base-100 rounded-t-none">
-                  {% if g.user %}
+                  {% if g.username %}
                   <li><a href="/logout">Sair</a></li>
                   {% else %}
                   <li><a href="/login">Login</a></li>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<section
+  class="max-w-[1600px] flex flex-col w-full max-[1600px]:pl-[16px] max-[1600px]:pr-[16px]"
+>
+  <h2 class="text-2xl font-bold text-left w-full mb-4">
+    Análise: {{ analysis.get_title() }}
+  </h2>
+
+  <div class="flex flex-col gap-4 mb-8">{{ analysis.get_details()|safe }}</div>
+</section>
+
+{% endblock %}

@@ -3,13 +3,10 @@ from models.user.user import User
 
 
 class UserRepository(ABC):
-    def __init__(self, db):
-        self.db = db
-
     @abstractmethod
-    def get_user_by_id(self, id: int):
+    def register(self, user: User) -> None:
         pass
 
     @abstractmethod
-    def register(self, user: User):
+    def get_user_by_password(self, user: User) -> User:
         pass

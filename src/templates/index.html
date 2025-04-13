@@ -1,3 +1,44 @@
 {% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content%}
-<h1>Home</h1>
+
+<section
+  class="max-w-[1600px] flex flex-col w-full max-[1600px]:pl-[16px] max-[1600px]:pr-[16px]"
+>
+  <div class="flex flex-col gap-4 mb-8">
+    <h2 class="text-2xl font-bold text-left w-full">Adicionar análise</h2>
+    <form
+      method="post"
+      enctype=multipart/form-data
+      class="flex flex-col items-start justify-start gap-4 max-w-[320px] w-full"
+    >
+      <div class="flex flex-col gap-2 w-full">
+        <label class="label text-white" for="title">Título</label>
+        <input
+          type="text"
+          class="input"
+          name="title"
+          placeholder="Título para sua análise"
+        />
+      </div>
+      <div class="flex flex-col gap-2 w-full">
+        <label class="label text-white" for="bloodtest">Seu exame</label>
+        <input type="file" class="file-input" name="bloodtest" />
+      </div>
+      <input type="submit" class="btn w-full max-w-[320px]" value="Analisar" />
+    </form>
+  </div>
+
+  <h2 class="text-2xl font-bold mb-4 text-left w-full">Minhas análises</h2>
+
+  <div class="flex flex-col gap-4">
+    <ul class="list bg-base-100 rounded-box shadow-md">
+      {% for analysis in analysis %}
+        <li class="list-row">
+          <a href="/analysis/{{ analysis.get_id() }}" class="link capitalize">
+            {{ analysis.get_title() }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
 {% endblock %}

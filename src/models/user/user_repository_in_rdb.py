@@ -9,23 +9,25 @@ class UserRepositoryInRDB(UserRepository):
         self.connection = connection
         self.cursor = connection.cursor()
 
-    def get_user_by_id(self, id: int):
-        self.cursor.execute("SELECT * FROM user WHERE id=%s", (id,))
-        user = self.cursor.fetchone()
-        return user
-
-    def get_user_by_password(self, username: str, password: str):
+    def get_user_by_password(self, user: User) -> User:
+        SQL = "SELECT * FROM user WHERE username=%s AND password=%s"
         self.cursor.execute(
-            "SELECT * FROM user WHERE username=%s AND password=%s",
-            (username, sha512(password.encode("utf-8")).hexdigest()),
+            SQL,
+            (
+                user.get_username(),
+                sha512(user.get_password().encode("utf-8")).hexdigest(),
+            ),
         )
         result = self.cursor.fetchone()
         return User(id=result[0], username=result[1])
 
-    def register(self, user: User):
+    def register(self, user: User) -> None:
         SQL = "INSERT INTO user (username, password) VALUES (%s, %s)"
         self.cursor.execute(
             SQL,
-            (user.username, sha512(user.password.encode("utf-8")).hexdigest()),
+            (
+                user.get_username(),
+                sha512(user.get_password().encode("utf-8")).hexdigest(),
+            ),
         )
         self.connection.commit()
