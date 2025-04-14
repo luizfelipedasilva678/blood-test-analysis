@@ -6,7 +6,7 @@ from markdown import markdown
 from controllers.analysis_controller import AnalysisController
 
 
-@handle_failure(lambda e: abort(500))
+@handle_failure(lambda code: abort(code))
 def analysis_handler(cnx: MySQLConnection, analysis_id: int):
     controller = AnalysisController(AnalysisRepositoryInRDB(cnx))
     analysis = controller.get_analysis_by_id(analysis_id)
