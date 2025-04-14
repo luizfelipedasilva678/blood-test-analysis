@@ -1,7 +1,7 @@
 # Analisador de hemograma
 
-Aplicação que recebe uma imagem de um hemograma e retorna
-uma análise utilizando o Gemini.
+Aplicação desenvolvida durante a disciplina de Sistemas Computacionais Inteligentes
+cujo objetivo é realizar uma análise de um hemograma enviado pelo usuário.
 
 ## Tecnologias utilizadas
 
