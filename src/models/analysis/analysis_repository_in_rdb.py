@@ -8,9 +8,13 @@ class AnalysisRepositoryInRDB(AnalysisRepository):
         self.connection = connection
         self.cursor = connection.cursor()
 
-    def get_analysis_by_id(self, id: int) -> Analysis:
+    def get_analysis_by_id(self, id: int) -> Analysis | None:
         self.cursor.execute("SELECT * FROM analysis WHERE id=%s", (id,))
         result = self.cursor.fetchone()
+
+        if result is None:
+            return None
+
         return Analysis(result[1], result[2], result[3], result[0])
 
     def get_analysis_by_user_id(self, user_id: int) -> list:

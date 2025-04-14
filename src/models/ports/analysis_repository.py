@@ -4,7 +4,7 @@ from models.analysis.analysis import Analysis
 
 class AnalysisRepository(ABC):
     @abstractmethod
-    def get_analysis_by_id(self, id: int) -> Analysis:
+    def get_analysis_by_id(self, id: int) -> Analysis | None:
         pass
 
     @abstractmethod

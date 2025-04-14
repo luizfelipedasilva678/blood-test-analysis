@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}
-Analisador de hemogramas{% endblock %} {% block content %}
+{% extends 'base.html' %} {% from "_formhelpers.html" import render_field %} {%
+block title %} Analisador de hemogramas{% endblock %} {% block content %}
 
 <section
   class="max-w-[1600px] flex flex-col w-full max-[1600px]:pl-[16px] max-[1600px]:pr-[16px]"
@@ -8,22 +8,16 @@ Analisador de hemogramas{% endblock %} {% block content %}
     <h2 class="text-2xl font-bold text-left w-full">Adicionar análise</h2>
     <form
       method="post"
-      enctype=multipart/form-data
+      enctype="multipart/form-data"
       class="flex flex-col items-start justify-start gap-4 max-w-[320px] w-full"
     >
-      <div class="flex flex-col gap-2 w-full">
-        <label class="label text-white" for="title">Título</label>
-        <input
-          type="text"
-          class="input"
-          name="title"
-          placeholder="Título para sua análise"
-        />
+      {{ form.csrf_token }} {{ render_field(form.title) }} {{
+      form.image(class_="file-input") }} {% if form.image.errors %} {% for error
+      in form.image.errors %}
+      <div role="alert" class="alert alert-error alert-soft w-full">
+        <span>{{ error }}</span>
       </div>
-      <div class="flex flex-col gap-2 w-full">
-        <label class="label text-white" for="bloodtest">Seu exame</label>
-        <input type="file" class="file-input" name="bloodtest" />
-      </div>
+      {% endfor %} {% endif %}
       <input type="submit" class="btn w-full max-w-[320px]" value="Analisar" />
     </form>
   </div>
@@ -33,11 +27,11 @@ Analisador de hemogramas{% endblock %} {% block content %}
   <div class="flex flex-col gap-4">
     <ul class="list bg-base-100 rounded-box shadow-md">
       {% for analysis in analysis %}
-        <li class="list-row">
-          <a href="/analysis/{{ analysis.get_id() }}" class="link capitalize">
-            {{ analysis.get_title() }}
-          </a>
-        </li>
+      <li class="list-row">
+        <a href="/analysis/{{ analysis.get_id() }}" class="link capitalize">
+          {{ analysis.get_title() }}
+        </a>
+      </li>
       {% endfor %}
     </ul>
   </div>

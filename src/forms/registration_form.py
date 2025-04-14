@@ -1,7 +1,8 @@
-from wtforms import Form, StringField, PasswordField, validators
+from wtforms import StringField, PasswordField, validators
+from flask_wtf import FlaskForm
 
 
-class RegistrationForm(Form):
+class RegistrationForm(FlaskForm):
     username = StringField(
         "Usuário",
         [

@@ -1,22 +1,15 @@
-from flask import Flask, render_template, session, redirect, url_for, request, abort, g
+from flask import Flask, render_template, session, redirect, url_for, g
 from sys import exit
 from mysql.connector import connect
-from models.user.user_repository_in_rdb import UserRepositoryInRDB
 from dotenv import load_dotenv
 from os import environ
-from models.analysis.analysis_repository_in_rdb import AnalysisRepositoryInRDB
-from models.analysis.analysis import Analysis
-from markdown import markdown
 from request_handlers.register_handler import register_handler
 from request_handlers.login_handler import login_handler
-from models.gemini_bloodtest_analyzer.gemini_bloodtest_analyzer import (
-    GeminiBloodTestAnalyzer,
-)
-
+from request_handlers.index_handler import index_handler
+from request_handlers.analysis_handler import analysis_handler
 
 load_dotenv()
 app = Flask(__name__)
-
 
 try:
     app.secret_key = environ["SECRET_KEY"]
@@ -41,41 +34,21 @@ try:
     def internal_error(error):
         return render_template("500.html"), 500
 
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template("404.html"), 404
+
+    @app.errorhandler(403)
+    def forbidden(error):
+        return render_template("403.html"), 403
+
     @app.route("/analysis/<int:analysis_id>")
     def analysis(analysis_id):
-        analysis_repository = AnalysisRepositoryInRDB(cnx)
-        analysis = analysis_repository.get_analysis_by_id(analysis_id)
-
-        if analysis.get_user_id() != session["userid"]:
-            abort(403)
-
-        analysis.set_details(markdown(analysis.get_details(), output_format="html"))
-        return render_template("analysis.html", analysis=analysis)
+        return analysis_handler(cnx=cnx, analysis_id=analysis_id)
 
     @app.route("/", methods=["GET", "POST"])
     def index():
-        if "userid" not in session:
-            return redirect(url_for("register"))
-
-        analysis_repository = AnalysisRepositoryInRDB(cnx)
-
-        if request.method == "POST":
-            file = request.files["bloodtest"]
-            title = request.form.get("title")
-
-            if file and allowed_file(file.filename):
-                analysis_repository.register(
-                    Analysis(
-                        title,
-                        GeminiBloodTestAnalyzer().analyze(file),
-                        session["userid"],
-                    )
-                )
-
-            return redirect(url_for("index"))
-        else:
-            analysis = analysis_repository.get_analysis_by_user_id(session["userid"])
-            return render_template("index.html", analysis=analysis)
+        return index_handler(cnx=cnx)
 
     @app.route("/register", methods=["GET", "POST"])
     def register():

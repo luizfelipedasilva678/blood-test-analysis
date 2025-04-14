@@ -4,7 +4,8 @@ block title %} Cadastre-se {% endblock %} {% block content %}
 <h1 class="text-2xl font-bold mb-4">Cadastre-se</h1>
 
 <form method="post" class="flex flex-col items-center justify-center gap-4">
-  {{ render_field(form.username) }} {{ render_field(form.password) }}
+  {{ form.csrf_token }} {{ render_field(form.username) }} {{
+  render_field(form.password) }}
   <input type="submit" class="btn w-full" value="Registrar" />
 </form>
 
