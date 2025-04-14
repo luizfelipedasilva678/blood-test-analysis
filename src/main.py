@@ -7,19 +7,15 @@ from os import environ
 from models.analysis.analysis_repository_in_rdb import AnalysisRepositoryInRDB
 from models.analysis.analysis import Analysis
 from markdown import markdown
-from controllers.register_controller import RegisterController
-from forms.registration_form import RegistrationForm
+from request_handlers.register_handler import register_handler
+from request_handlers.login_handler import login_handler
 from models.gemini_bloodtest_analyzer.gemini_bloodtest_analyzer import (
     GeminiBloodTestAnalyzer,
 )
 
+
 load_dotenv()
-ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "webp"}
 app = Flask(__name__)
-
-
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 try:
@@ -36,9 +32,10 @@ try:
         if "userid" in session:
             g.username = session.get("username")
             g.userid = session.get("userid")
-        else:
-            g.username = None
-            g.userid = None
+            return
+
+        g.username = None
+        g.userid = None
 
     @app.errorhandler(500)
     def internal_error(error):
@@ -82,46 +79,14 @@ try:
 
     @app.route("/register", methods=["GET", "POST"])
     def register():
-        try:
-            if "userid" in session:
-                return redirect(url_for("index"))
-
-            form = RegistrationForm(request.form)
-            if request.method == "POST" and form.validate():
-                controller = RegisterController(UserRepositoryInRDB(cnx))
-                controller.register(form.username.data, form.password.data)
-                return redirect(url_for("login"))
-
-            return render_template("register.html", form=form)
-        except Exception as e:
-            abort(500)
+        return register_handler(cnx=cnx)
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
-        try:
-            if "userid" in session:
-                return redirect(url_for("index"))
-
-            if request.method == "POST":
-                user_repository = UserRepositoryInRDB(cnx)
-                user = user_repository.get_user_by_password(
-                    User(request.form.get("username"), request.form.get("password"))
-                )
-
-                session.clear()
-                session["userid"] = user.get_id()
-                session["username"] = user.get_username()
-
-                return redirect(url_for("index"))
-
-            return render_template("login.html")
-        except Exception as e:
-            abort(500)
+        return login_handler(cnx=cnx)
 
     @app.route("/logout")
     def logout():
-        session.pop("userid", None)
-        session.pop("username", None)
         session.clear()
         return redirect(url_for("login"))
 

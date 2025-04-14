@@ -9,7 +9,7 @@ class UserRepositoryInRDB(UserRepository):
         self.connection = connection
         self.cursor = connection.cursor()
 
-    def get_user_by_password(self, user: User) -> User:
+    def get_user_by_password(self, user: User) -> User | None:
         SQL = "SELECT * FROM user WHERE username=%s AND password=%s"
         self.cursor.execute(
             SQL,
@@ -19,6 +19,10 @@ class UserRepositoryInRDB(UserRepository):
             ),
         )
         result = self.cursor.fetchone()
+
+        if result is None:
+            return None
+
         return User(id=result[0], username=result[1])
 
     def register(self, user: User) -> None:

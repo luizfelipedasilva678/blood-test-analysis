@@ -8,5 +8,5 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def get_user_by_password(self, user: User) -> User:
+    def get_user_by_password(self, user: User) -> User | None:
         pass

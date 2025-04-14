@@ -1,17 +1,15 @@
-{% extends 'base.html' %} {% block title %}Acesse sua conta{% endblock %} {%
-block content %}
+{% extends 'base.html' %} {% from "_formhelpers.html" import render_field %} {%
+block title %}Acesse sua conta{% endblock %} {% block content %}
 
 <h1 class="text-2xl font-bold mb-4">Acesse a sua conta</h1>
 
 <form method="post" class="flex flex-col items-center justify-center gap-4">
-  <label class="input w-full">
-    <span class="label">Usuário</span>
-    <input type="text" placeholder="seu usuário" name="username" />
-  </label>
-  <label class="input w-full">
-    <span class="label">Senha</span>
-    <input type="password" placeholder="sua senha" name="password" />
-  </label>
+  {{ render_field(form.username) }} {{ render_field(form.password) }} {% if
+  error %}
+  <div role="alert" class="alert alert-error alert-soft w-full">
+    <span>{{ error }}</span>
+  </div>
+  {% endif %}
   <input type="submit" class="btn w-full" value="Acessar" />
 </form>
 {% endblock %}
