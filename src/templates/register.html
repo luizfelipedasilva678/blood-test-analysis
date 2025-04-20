@@ -5,7 +5,11 @@ block title %} Cadastre-se {% endblock %} {% block content %}
 
 <form method="post" class="flex flex-col items-center justify-center gap-4">
   {{ form.csrf_token }} {{ render_field(form.username) }} {{
-  render_field(form.password) }}
+  render_field(form.password) }} {% if error %}
+  <div role="alert" class="alert alert-error alert-soft w-full">
+    <span>{{ error }}</span>
+  </div>
+  {% endif %}
   <input type="submit" class="btn w-full" value="Registrar" />
 </form>
 

@@ -10,6 +10,7 @@ from request_handlers.analysis_handler import analysis_handler
 
 load_dotenv()
 app = Flask(__name__)
+cnx = None
 
 try:
     app.secret_key = environ["SECRET_KEY"]
@@ -64,4 +65,9 @@ try:
         return redirect(url_for("login"))
 
 except Exception as e:
+    print(f"Error: {e}")
+
+    if cnx:
+        cnx.close()
+
     exit(1)
