@@ -32,7 +32,7 @@ GEMINI_API_KEY=
 
 ### Executando o projeto
 
-1. Execute ``p̀npm i```
+1. Execute ```pnpm i```
 2. Execute ```pip install -r requirements.txt```
-3. Execute ``pnpm run generate-css```
+3. Execute ```pnpm run generate-css```
 4. Por fim, execute ```pnpm run dev``` 
