@@ -7,13 +7,19 @@ cujo objetivo é realizar uma análise de um hemograma enviado pelo usuário.
 
 - Python (3.13)
 - Docker
-- Pnpm
+- Pnpm (necessário ter o NodeJS instalado)
 - Flask
 - Tailwind
 
-## Como rodar
+## Como executar
 
-Primeiro, é necessário definir algumas variáveis de ambiente:
+### Banco de dados
+
+Execute o comando `docker compose up -d` para subir o banco de dados.
+
+### Variáveis de ambiente
+
+Crie um arquivo ```.env``` na raiz do projeto copie e cole as variáveis abaixo e preencha com seus valores.
 
 ```
 DB_PASSWORD=
@@ -24,6 +30,9 @@ SECRET_KEY=
 GEMINI_API_KEY=
 ```
 
-Depois, execute o comando `docker compose up -d` para subir o banco de dados.
+### Executando o projeto
 
-Por fim, basta executar `pnpm run dev`.
+1. Execute ``p̀npm i```
+2. Execute ```pip install -r requirements.txt```
+3. Execute ``pnpm run generate-css```
+4. Por fim, execute ```pnpm run dev``` 
