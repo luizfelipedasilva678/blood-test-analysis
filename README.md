@@ -1,4 +1,4 @@
-# Analisador de hemograma
+# Analisador de exame de sangue
 
 Aplicação desenvolvida durante a disciplina de Sistemas Computacionais Inteligentes
 cujo objetivo é realizar uma análise de um hemograma enviado pelo usuário.
