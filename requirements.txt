@@ -1,7 +1,8 @@
 Flask
 mysql-connector-python
 python-dotenv
-google-genai
 pillow
 markdown
 Flask-WTF
+langchain
+langchain-google-genai

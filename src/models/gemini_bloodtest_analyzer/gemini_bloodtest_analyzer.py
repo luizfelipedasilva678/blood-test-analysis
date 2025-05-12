@@ -1,31 +1,54 @@
 from models.ports.bloodtest_analyzer import BloodTestAnalyzer
-from google.genai.types import Tool, GenerateContentConfig, GoogleSearch
 from PIL import Image
-from google import genai
-from os import environ
-
-PROMPT = (
-    "Make a blood test analysis of this image and answer in portuguese. If the image is not a blood test, answer in portuguese that it is not a blood test.",
-)
+from langchain.chat_models import init_chat_model
+from langchain_core.messages import HumanMessage, SystemMessage
+import base64
+from io import BytesIO
 
 
 class GeminiBloodTestAnalyzer(BloodTestAnalyzer):
     def __init__(self):
-        self.client = genai.Client(api_key=environ["GEMINI_API_KEY"])
-        self.search_tool = Tool(google_search=GoogleSearch())
-        self.prompt = PROMPT
-
-    def analyze(self, image):
-        response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=[
-                Image.open(image),
-                self.prompt,
-            ],
-            config=GenerateContentConfig(
-                tools=[self.search_tool],
-                response_modalities=["TEXT"],
-            ),
+        self.model = init_chat_model(
+            "gemini-2.0-flash", model_provider="google_genai", temperature=0
         )
 
-        return response.text
+    def analyze(self, image):
+        buff = BytesIO()
+        Image.open(image).save(buff, format="JPEG")
+        encoded_image = base64.b64encode(buff.getvalue()).decode("utf-8")
+
+        user_message = HumanMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": "Describe this image",
+                },
+                {
+                    "type": "image_url",
+                    "image_url": f"data:image/png;base64,{encoded_image}",
+                },
+            ]
+        )
+
+        system_message = SystemMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": """
+                        You are an expert in blood tests. You will receive an image and if the image is of a blood test 
+                        you will make a detailed analysis explaining the results and the consequences of the changed values.
+                        If the image is not a blood test, answer in portuguese that it is not a blood test.
+
+                        Requirements:
+
+                        - Answer in portuguese
+                        - Use markdown
+                        - Make the analysis as detailed as possible
+                    """,
+                }
+            ]
+        )
+
+        result = self.model.invoke([system_message, user_message])
+
+        return result.content
