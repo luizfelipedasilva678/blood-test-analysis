@@ -1,7 +1,7 @@
-# Analisador de hemograma
+# Analisador de exame de sangue
 
 Aplicação desenvolvida durante a disciplina de Sistemas Computacionais Inteligentes
-cujo objetivo é realizar uma análise de um hemograma enviado pelo usuário.
+cujo objetivo é realizar uma análise de um exame de sangue enviado pelo usuário.
 
 ## Tecnologias utilizadas
 
