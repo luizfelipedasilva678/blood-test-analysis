@@ -14,7 +14,7 @@ class GeminiBloodTestAnalyzer(BloodTestAnalyzer):
 
     def analyze(self, image):
         buff = BytesIO()
-        Image.open(image).save(buff, format="JPEG")
+        Image.open(image).save(buff)
         encoded_image = base64.b64encode(buff.getvalue()).decode("utf-8")
 
         user_message = HumanMessage(
