@@ -14,7 +14,8 @@ class GeminiBloodTestAnalyzer(BloodTestAnalyzer):
 
     def analyze(self, image):
         buff = BytesIO()
-        Image.open(image).save(buff)
+        opened_image = Image.open(image)
+        opened_image.save(buff, format=opened_image.format)
         encoded_image = base64.b64encode(buff.getvalue()).decode("utf-8")
 
         user_message = HumanMessage(
@@ -37,13 +38,14 @@ class GeminiBloodTestAnalyzer(BloodTestAnalyzer):
                     "text": """
                         You are an expert in blood tests. You will receive an image and if the image is of a blood test 
                         you will make a detailed analysis explaining the results and the consequences of the changed values.
-                        If the image is not a blood test, answer in portuguese that it is not a blood test.
+                        If the image is not a blood test, return an error message.
 
                         Requirements:
 
                         - Answer in portuguese
                         - Use markdown
                         - Make the analysis as detailed as possible
+                        - Return an message "ERROR" if the image is not a blood test
                     """,
                 }
             ]

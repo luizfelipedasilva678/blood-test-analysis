@@ -11,6 +11,7 @@ from models.gemini_bloodtest_analyzer.gemini_bloodtest_analyzer import (
 
 @handle_failure(lambda e: abort(500))
 def index_handler(cnx: MySQLConnection):
+
     if "userid" not in session:
         return redirect(url_for("register"))
 
@@ -19,9 +20,21 @@ def index_handler(cnx: MySQLConnection):
         AnalysisRepositoryInRDB(cnx), GeminiBloodTestAnalyzer()
     )
 
+    analysis = controller.get_analysis_by_user_id(session["userid"])
+
     if request.method == "POST" and form.validate():
-        controller.register(form.title.data, form.image.data, session["userid"])
+        analysis_result = controller.register(
+            form.title.data, form.image.data, session["userid"]
+        )
+
+        if analysis_result is False:
+            return render_template(
+                "index.html",
+                analysis=analysis,
+                form=form,
+                analysis_error="A imagem não enviada não é válida",
+            )
+
         return redirect(url_for("index"))
 
-    analysis = controller.get_analysis_by_user_id(session["userid"])
     return render_template("index.html", analysis=analysis, form=form)

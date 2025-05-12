@@ -17,7 +17,11 @@ block title %} Analisador de hemogramas{% endblock %} {% block content %}
       <div role="alert" class="alert alert-error alert-soft w-full">
         <span>{{ error }}</span>
       </div>
-      {% endfor %} {% endif %}
+      {% endfor %} {% endif %} {% if analysis_error %}
+      <div role="alert" class="alert alert-error alert-soft w-full">
+        <span>{{ analysis_error }}</span>
+      </div>
+      {% endif %}
       <input
         type="submit"
         class="btn w-full max-w-[320px]"
