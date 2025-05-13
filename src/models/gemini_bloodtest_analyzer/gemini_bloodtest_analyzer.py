@@ -45,7 +45,7 @@ class GeminiBloodTestAnalyzer(BloodTestAnalyzer):
                         - Answer in portuguese
                         - Use markdown
                         - Make the analysis as detailed as possible
-                        - Return an message "ERROR" if the image is not a blood test
+                        - Return a message "ERROR" if the image is not a blood test
                     """,
                 }
             ]

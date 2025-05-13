@@ -19,7 +19,7 @@ Execute o comando `docker compose up -d` para subir o banco de dados.
 
 ### Variáveis de ambiente
 
-Crie um arquivo ```.env``` na raiz do projeto copie e cole as variáveis abaixo e preencha com seus valores.
+Crie um arquivo `.env` na raiz do projeto copie e cole as variáveis abaixo e preencha com seus valores.
 
 ```
 DB_PASSWORD=
@@ -27,12 +27,12 @@ DB_USER=
 DB_HOST=
 DB_DATABASE_NAME=
 SECRET_KEY=
-GEMINI_API_KEY=
+GOOGLE_API_KEY=
 ```
 
 ### Executando o projeto
 
-1. Execute ```pnpm i```
-2. Execute ```pip install -r requirements.txt```
-3. Execute ```pnpm run generate-css```
-4. Por fim, execute ```pnpm run dev``` 
+1. Execute `pnpm i`
+2. Execute `pip install -r requirements.txt`
+3. Execute `pnpm run generate-css`
+4. Por fim, execute `pnpm run dev`
